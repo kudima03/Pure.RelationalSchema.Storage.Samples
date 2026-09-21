@@ -27,6 +27,115 @@ The `SchemaDataSets` catalogue is graded from trivial to full-set, so a consumer
 
 `IStoredTableDataSet` is an `IQueryable<IRow>`, and an in-memory `AsQueryable()` requires dynamic code, so `IsAotCompatible` is deliberately not set on this package (unlike `Pure.RelationalSchema.Samples`, which is AOT-compatible).
 
+## Schema Data Set Catalogue
+
+```
+Pure.RelationalSchema.Storage.Samples.SchemaDataSets/
+├── EmptySchemaDataSet                        (empty_schema)
+│
+├── SingleTableSchemaDataSet                  (single_table_schema)
+│   └── SingleColumnTable → SingleRowTableDataSet
+│       └── SingleCellRow
+│           └── id → UuidCell
+│
+├── SchemaDataSetWithoutRows                  (schema_without_foreign_keys)
+│   ├── EmptyTable → EmptyTableDataSet
+│   ├── SingleColumnTable → EmptySingleColumnTableDataSet
+│   └── TableWithoutIndexes → EmptyTableWithoutIndexesDataSet
+│
+├── SchemaDataSetWithIndexes                  (schema_with_indexes)
+│   ├── TableWithSingleIndex → TableWithSingleIndexDataSet
+│   │   └── TableWithSingleIndexRow
+│   │       ├── id → UuidCell
+│   │       └── name → TextCell
+│   └── TableWithIndexes → TableWithIndexesDataSet
+│       └── TableWithIndexesRow
+│           ├── id → UuidCell
+│           ├── tenant_id → UuidCell
+│           ├── name → TextCell
+│           └── created_at → DateTimeCell
+│
+├── SchemaDataSetWithAllColumnTypes            (schema_with_all_column_types)
+│   └── AllColumnTypesTable → AllColumnTypesTableDataSet
+│       └── AllColumnTypesRow
+│           ├── id → UuidCell
+│           ├── name → TextCell
+│           ├── age → IntCell
+│           ├── quantity → LongCell
+│           ├── price → DoubleCell
+│           ├── is_active → BoolCell
+│           ├── birth_date → DateCell
+│           ├── start_time → TimeCell
+│           ├── created_at → DateTimeCell
+│           └── (empty name) → EmptyCell
+│
+├── SchemaDataSetWithForeignKeys               (schema_with_foreign_keys)
+│   ├── UsersTable → UsersTableDataSet
+│   │   ├── UserRow
+│   │   │   ├── id → UuidCell
+│   │   │   ├── tenant_id → UuidCell
+│   │   │   ├── name → TextCell
+│   │   │   ├── birth_date → DateCell
+│   │   │   ├── is_active → BoolCell
+│   │   │   └── created_at → DateTimeCell
+│   │   └── EmptyCellsUserRow          (all columns) → EmptyCell
+│   └── OrdersTable → OrdersTableDataSet
+│       └── OrderRow
+│           ├── id → UuidCell
+│           ├── tenant_id → UuidCell
+│           ├── user_id → UuidCell
+│           ├── price → DoubleCell
+│           └── created_at → DateTimeCell
+│
+├── SchemaDataSetWithCompositeForeignKey       (schema_with_composite_foreign_key)
+│   ├── OrdersTable → OrdersTableDataSet
+│   │   └── OrderRow
+│   │       ├── id → UuidCell
+│   │       ├── tenant_id → UuidCell
+│   │       ├── user_id → UuidCell
+│   │       ├── price → DoubleCell
+│   │       └── created_at → DateTimeCell
+│   └── OrderItemsTable → OrderItemsTableDataSet
+│       └── OrderItemRow
+│           ├── id → UuidCell
+│           ├── tenant_id → UuidCell
+│           ├── order_id → UuidCell
+│           ├── product_id → UuidCell
+│           └── quantity → LongCell
+│
+├── SchemaDataSetWithSelfReferencingTable      (schema_with_self_referencing_table)
+│   └── EmployeesTable → EmployeesTableDataSet
+│       └── EmployeeRow
+│           ├── id → UuidCell
+│           ├── name → TextCell
+│           ├── manager_id → UuidCell
+│           └── start_time → TimeCell
+│
+└── FullSchemaDataSet                          (full_schema)
+    ├── EmptyTable → EmptyTableDataSet
+    ├── SingleColumnTable → SingleRowTableDataSet
+    │   └── SingleCellRow
+    ├── TableWithoutIndexes → TableWithoutIndexesDataSet
+    │   └── UnicodeTextRow
+    ├── TableWithSingleIndex → TableWithSingleIndexDataSet
+    │   └── TableWithSingleIndexRow
+    ├── TableWithIndexes → TableWithIndexesDataSet
+    │   └── TableWithIndexesRow
+    ├── AllColumnTypesTable → AllColumnTypesTableDataSet
+    │   └── AllColumnTypesRow
+    ├── UsersTable → UsersTableDataSet
+    │   ├── UserRow
+    │   └── EmptyCellsUserRow
+    ├── OrdersTable → OrdersTableDataSet
+    │   └── OrderRow
+    ├── ProductsTable → ProductsTableDataSet
+    │   └── ProductRow
+    ├── OrderItemsTable → OrderItemsTableDataSet
+    │   └── OrderItemRow
+    └── EmployeesTable → EmployeesTableDataSet
+        └── EmployeeRow
+```
+
 ## Schema Data Sets
 
 `namespace Pure.RelationalSchema.Storage.Samples.SchemaDataSets`
