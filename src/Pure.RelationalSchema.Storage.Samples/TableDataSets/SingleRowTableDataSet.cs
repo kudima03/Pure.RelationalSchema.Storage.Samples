@@ -11,10 +11,13 @@ public sealed record SingleRowTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public SingleRowTableDataSet()
+    private SingleRowTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new SingleCellRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public SingleRowTableDataSet()
+        : this(new IRow[] { new SingleCellRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new SingleColumnTable();
 
@@ -31,7 +34,6 @@ public sealed record SingleRowTableDataSet : IStoredTableDataSet
         foreach (IRow row in _rows)
         {
             yield return row;
-            // Stryker disable once Statement
             await Task.CompletedTask;
         }
     }

@@ -10,10 +10,13 @@ public sealed record EmptySingleColumnTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public EmptySingleColumnTableDataSet()
+    private EmptySingleColumnTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = Array.Empty<IRow>().AsQueryable();
+        _rows = rows;
     }
+
+    public EmptySingleColumnTableDataSet()
+        : this(Array.Empty<IRow>().AsQueryable()) { }
 
     public ITable TableSchema => new SingleColumnTable();
 
@@ -23,15 +26,15 @@ public sealed record EmptySingleColumnTableDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    // Stryker disable once Block
     public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        // Stryker disable once Statement
-        await Task.CompletedTask;
-        // Stryker disable once Statement
-        yield break;
+        foreach (IRow row in _rows)
+        {
+            yield return row;
+            await Task.CompletedTask;
+        }
     }
 
     public IEnumerator<IRow> GetEnumerator()

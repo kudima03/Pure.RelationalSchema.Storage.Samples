@@ -11,10 +11,13 @@ public sealed record TableWithIndexesDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public TableWithIndexesDataSet()
+    private TableWithIndexesDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new TableWithIndexesRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public TableWithIndexesDataSet()
+        : this(new IRow[] { new TableWithIndexesRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new TableWithIndexes();
 
@@ -31,7 +34,6 @@ public sealed record TableWithIndexesDataSet : IStoredTableDataSet
         foreach (IRow row in _rows)
         {
             yield return row;
-            // Stryker disable once Statement
             await Task.CompletedTask;
         }
     }

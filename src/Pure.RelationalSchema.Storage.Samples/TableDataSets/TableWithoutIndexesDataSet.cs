@@ -11,10 +11,13 @@ public sealed record TableWithoutIndexesDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public TableWithoutIndexesDataSet()
+    private TableWithoutIndexesDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new UnicodeTextRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public TableWithoutIndexesDataSet()
+        : this(new IRow[] { new UnicodeTextRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new TableWithoutIndexes();
 
@@ -31,7 +34,6 @@ public sealed record TableWithoutIndexesDataSet : IStoredTableDataSet
         foreach (IRow row in _rows)
         {
             yield return row;
-            // Stryker disable once Statement
             await Task.CompletedTask;
         }
     }

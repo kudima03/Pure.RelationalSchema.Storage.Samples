@@ -11,10 +11,13 @@ public sealed record ProductsTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public ProductsTableDataSet()
+    private ProductsTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new ProductRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public ProductsTableDataSet()
+        : this(new IRow[] { new ProductRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new ProductsTable();
 
@@ -31,7 +34,6 @@ public sealed record ProductsTableDataSet : IStoredTableDataSet
         foreach (IRow row in _rows)
         {
             yield return row;
-            // Stryker disable once Statement
             await Task.CompletedTask;
         }
     }
