@@ -11,10 +11,13 @@ public sealed record AllColumnTypesTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public AllColumnTypesTableDataSet()
+    private AllColumnTypesTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new AllColumnTypesRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public AllColumnTypesTableDataSet()
+        : this(new IRow[] { new AllColumnTypesRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new AllColumnTypesTable();
 
@@ -24,16 +27,11 @@ public sealed record AllColumnTypesTableDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        foreach (IRow row in _rows)
-        {
-            yield return row;
-            // Stryker disable once Statement
-            await Task.CompletedTask;
-        }
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
     }
 
     public IEnumerator<IRow> GetEnumerator()

@@ -11,10 +11,13 @@ public sealed record OrdersTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public OrdersTableDataSet()
+    private OrdersTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new OrderRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public OrdersTableDataSet()
+        : this(new IRow[] { new OrderRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new OrdersTable();
 
@@ -24,16 +27,11 @@ public sealed record OrdersTableDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        foreach (IRow row in _rows)
-        {
-            yield return row;
-            // Stryker disable once Statement
-            await Task.CompletedTask;
-        }
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
     }
 
     public IEnumerator<IRow> GetEnumerator()

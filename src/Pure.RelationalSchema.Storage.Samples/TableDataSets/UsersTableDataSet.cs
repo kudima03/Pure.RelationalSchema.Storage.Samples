@@ -11,10 +11,13 @@ public sealed record UsersTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public UsersTableDataSet()
+    private UsersTableDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new UserRow(), new EmptyCellsUserRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public UsersTableDataSet()
+        : this(new IRow[] { new UserRow(), new EmptyCellsUserRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new UsersTable();
 
@@ -24,16 +27,11 @@ public sealed record UsersTableDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        foreach (IRow row in _rows)
-        {
-            yield return row;
-            // Stryker disable once Statement
-            await Task.CompletedTask;
-        }
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
     }
 
     public IEnumerator<IRow> GetEnumerator()

@@ -11,10 +11,13 @@ public sealed record TableWithIndexesDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    public TableWithIndexesDataSet()
+    private TableWithIndexesDataSet(IQueryable<IRow> rows)
     {
-        _rows = new IRow[] { new TableWithIndexesRow() }.AsQueryable();
+        _rows = rows;
     }
+
+    public TableWithIndexesDataSet()
+        : this(new IRow[] { new TableWithIndexesRow() }.AsQueryable()) { }
 
     public ITable TableSchema => new TableWithIndexes();
 
@@ -24,16 +27,11 @@ public sealed record TableWithIndexesDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        foreach (IRow row in _rows)
-        {
-            yield return row;
-            // Stryker disable once Statement
-            await Task.CompletedTask;
-        }
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
     }
 
     public IEnumerator<IRow> GetEnumerator()
