@@ -28,14 +28,10 @@ public sealed record EmptySingleColumnTableDataSet : IStoredTableDataSet
         CancellationToken cancellationToken = default
     )
     {
-        // Stryker disable once Block
-        foreach (IRow row in _rows)
-        {
-            // Stryker disable once Statement
-            yield return row;
-            // Stryker disable once Statement
-            await Task.CompletedTask;
-        }
+        // Stryker disable once Statement
+        await Task.CompletedTask;
+        // Stryker disable once Statement
+        yield break;
     }
 
     public IEnumerator<IRow> GetEnumerator()
