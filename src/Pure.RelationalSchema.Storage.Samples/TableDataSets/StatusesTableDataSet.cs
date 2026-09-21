@@ -15,22 +15,16 @@ public sealed record StatusesTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private StatusesTableDataSet(IQueryable<IRow> rows)
+    public StatusesTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new StatusRow(),
             new SecondStatusRow(),
             new ThirdStatusRow(),
             new FourthStatusRow(),
         }.AsQueryable();
-
-    public StatusesTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new StatusesTable();
 

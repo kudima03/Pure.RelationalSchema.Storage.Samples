@@ -11,22 +11,16 @@ public sealed record ProductsTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private ProductsTableDataSet(IQueryable<IRow> rows)
+    public ProductsTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new ProductRow(),
             new SecondProductRow(),
             new ThirdProductRow(),
             new FourthProductRow(),
         }.AsQueryable();
-
-    public ProductsTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new ProductsTable();
 

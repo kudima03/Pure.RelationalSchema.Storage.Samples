@@ -11,13 +11,10 @@ public sealed record AllColumnTypesTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private AllColumnTypesTableDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public AllColumnTypesTableDataSet()
-        : this(new IRow[] { new AllColumnTypesRow() }.AsQueryable()) { }
+    {
+        _rows = new IRow[] { new AllColumnTypesRow() }.AsQueryable();
+    }
 
     public ITable TableSchema => new AllColumnTypesTable();
 

@@ -14,22 +14,16 @@ public sealed record AmbiguousIdLookupTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private AmbiguousIdLookupTableDataSet(IQueryable<IRow> rows)
+    public AmbiguousIdLookupTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new FirstAmbiguousIdLookupRow(),
             new SecondAmbiguousIdLookupRow(),
             new ThirdAmbiguousIdLookupRow(),
             new FourthAmbiguousIdLookupRow(),
         }.AsQueryable();
-
-    public AmbiguousIdLookupTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new TableWithSingleIndex();
 

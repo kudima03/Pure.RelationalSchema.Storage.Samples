@@ -15,13 +15,9 @@ public sealed record AmbiguousIdTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private AmbiguousIdTableDataSet(IQueryable<IRow> rows)
+    public AmbiguousIdTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new FirstAmbiguousIdRow(),
             new SecondAmbiguousIdRow(),
@@ -30,9 +26,7 @@ public sealed record AmbiguousIdTableDataSet : IStoredTableDataSet
             new FifthAmbiguousIdRow(),
             new SixthAmbiguousIdRow(),
         }.AsQueryable();
-
-    public AmbiguousIdTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new TableWithIndexes();
 

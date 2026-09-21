@@ -23,13 +23,9 @@ public sealed record UsersTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private UsersTableDataSet(IQueryable<IRow> rows)
+    public UsersTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new UserRow(),
             new SecondUserRow(),
@@ -38,9 +34,7 @@ public sealed record UsersTableDataSet : IStoredTableDataSet
             new FifthUserRow(),
             new SixthUserRow(),
         }.AsQueryable();
-
-    public UsersTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new UsersTable();
 

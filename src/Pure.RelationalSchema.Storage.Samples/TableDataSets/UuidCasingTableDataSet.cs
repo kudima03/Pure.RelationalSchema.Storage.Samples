@@ -14,16 +14,14 @@ public sealed record UuidCasingTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private UuidCasingTableDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[] { new LowercaseUuidRow(), new UppercaseUuidRow() }.AsQueryable();
-
     public UuidCasingTableDataSet()
-        : this(Rows) { }
+    {
+        _rows = new IRow[]
+        {
+            new LowercaseUuidRow(),
+            new UppercaseUuidRow(),
+        }.AsQueryable();
+    }
 
     public ITable TableSchema => new TableWithoutIndexes();
 

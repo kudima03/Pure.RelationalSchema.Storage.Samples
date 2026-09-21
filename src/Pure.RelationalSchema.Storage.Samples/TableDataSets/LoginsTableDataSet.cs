@@ -13,22 +13,16 @@ public sealed record LoginsTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private LoginsTableDataSet(IQueryable<IRow> rows)
+    public LoginsTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new LoginRow(),
             new SecondLoginRow(),
             new ThirdLoginRow(),
             new FourthLoginRow(),
         }.AsQueryable();
-
-    public LoginsTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new LoginsTable();
 

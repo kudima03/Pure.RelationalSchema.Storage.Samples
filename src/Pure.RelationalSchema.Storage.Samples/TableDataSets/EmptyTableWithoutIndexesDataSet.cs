@@ -10,13 +10,10 @@ public sealed record EmptyTableWithoutIndexesDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private EmptyTableWithoutIndexesDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public EmptyTableWithoutIndexesDataSet()
-        : this(Array.Empty<IRow>().AsQueryable()) { }
+    {
+        _rows = Array.Empty<IRow>().AsQueryable();
+    }
 
     public ITable TableSchema => new TableWithoutIndexes();
 

@@ -11,13 +11,10 @@ public sealed record TableWithoutIndexesDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private TableWithoutIndexesDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public TableWithoutIndexesDataSet()
-        : this(new IRow[] { new UnicodeTextRow() }.AsQueryable()) { }
+    {
+        _rows = new IRow[] { new UnicodeTextRow() }.AsQueryable();
+    }
 
     public ITable TableSchema => new TableWithoutIndexes();
 

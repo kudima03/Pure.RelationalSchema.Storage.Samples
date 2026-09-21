@@ -13,22 +13,16 @@ public sealed record OrderItemsTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private OrderItemsTableDataSet(IQueryable<IRow> rows)
+    public OrderItemsTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new OrderItemRow(),
             new SecondOrderItemRow(),
             new ThirdOrderItemRow(),
             new FourthOrderItemRow(),
         }.AsQueryable();
-
-    public OrderItemsTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new OrderItemsTable();
 

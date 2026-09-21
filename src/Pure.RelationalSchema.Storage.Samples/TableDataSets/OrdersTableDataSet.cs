@@ -15,13 +15,9 @@ public sealed record OrdersTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private OrdersTableDataSet(IQueryable<IRow> rows)
+    public OrdersTableDataSet()
     {
-        _rows = rows;
-    }
-
-    private static IQueryable<IRow> Rows =>
-        new IRow[]
+        _rows = new IRow[]
         {
             new OrderRow(),
             new SecondOrderRow(),
@@ -30,9 +26,7 @@ public sealed record OrdersTableDataSet : IStoredTableDataSet
             new FifthOrderRow(),
             new SixthOrderRow(),
         }.AsQueryable();
-
-    public OrdersTableDataSet()
-        : this(Rows) { }
+    }
 
     public ITable TableSchema => new OrdersTable();
 

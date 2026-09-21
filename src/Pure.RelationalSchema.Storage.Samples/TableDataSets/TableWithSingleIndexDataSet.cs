@@ -11,13 +11,10 @@ public sealed record TableWithSingleIndexDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private TableWithSingleIndexDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public TableWithSingleIndexDataSet()
-        : this(new IRow[] { new TableWithSingleIndexRow() }.AsQueryable()) { }
+    {
+        _rows = new IRow[] { new TableWithSingleIndexRow() }.AsQueryable();
+    }
 
     public ITable TableSchema => new TableWithSingleIndex();
 
