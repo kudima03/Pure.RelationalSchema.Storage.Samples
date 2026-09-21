@@ -7,17 +7,22 @@ using Pure.RelationalSchema.Storage.Samples.Rows;
 
 namespace Pure.RelationalSchema.Storage.Samples.TableDataSets;
 
+// Four items over orders 101, 101, 103 and 105 and products 201, 202, 203 and
+// 201 - deliberately neither 1:1 nor uniform, so join cardinality is testable.
 public sealed record OrderItemsTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private OrderItemsTableDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public OrderItemsTableDataSet()
-        : this(new IRow[] { new OrderItemRow() }.AsQueryable()) { }
+    {
+        _rows = new IRow[]
+        {
+            new OrderItemRow(),
+            new SecondOrderItemRow(),
+            new ThirdOrderItemRow(),
+            new FourthOrderItemRow(),
+        }.AsQueryable();
+    }
 
     public ITable TableSchema => new OrderItemsTable();
 

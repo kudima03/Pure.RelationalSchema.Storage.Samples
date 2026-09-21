@@ -23,11 +23,11 @@ public sealed record OrderItemsTableDataSetTests
     }
 
     [Fact]
-    public void RowsCountIs1()
+    public void RowsCountIs4()
     {
         IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
 
-        _ = Assert.Single((IEnumerable<IRow>)dataSet);
+        Assert.Equal(4, dataSet.Count());
     }
 
     [Fact]
@@ -38,6 +38,39 @@ public sealed record OrderItemsTableDataSetTests
         Assert.Contains(
             (IEnumerable<IRow>)dataSet,
             row => new RowHash(row).SequenceEqual(new RowHash(new OrderItemRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsSecondOrderItemRow()
+    {
+        IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new SecondOrderItemRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsThirdOrderItemRow()
+    {
+        IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new ThirdOrderItemRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFourthOrderItemRow()
+    {
+        IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FourthOrderItemRow()))
         );
     }
 
@@ -63,22 +96,27 @@ public sealed record OrderItemsTableDataSetTests
         IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
 
         Assert.NotNull(dataSet.Provider);
-        _ = Assert.Single(dataSet.ToArray());
+        Assert.Equal(4, dataSet.ToArray().Length);
     }
 
     [Fact]
-    public void NonGenericEnumeratorEnumeratesOneRow()
+    public void NonGenericEnumeratorEnumeratesFourRows()
     {
         IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
 
         IEnumerator enumerator = ((IEnumerable)dataSet).GetEnumerator();
 
-        Assert.True(enumerator.MoveNext());
-        Assert.False(enumerator.MoveNext());
+        int count = 0;
+        while (enumerator.MoveNext())
+        {
+            count++;
+        }
+
+        Assert.Equal(4, count);
     }
 
     [Fact]
-    public async Task AsyncEnumerationYieldsOneRow()
+    public async Task AsyncEnumerationYieldsFourRows()
     {
         IStoredTableDataSet dataSet = new OrderItemsTableDataSet();
 
@@ -89,6 +127,6 @@ public sealed record OrderItemsTableDataSetTests
             rows.Add(row);
         }
 
-        _ = Assert.Single(rows);
+        Assert.Equal(4, rows.Count);
     }
 }

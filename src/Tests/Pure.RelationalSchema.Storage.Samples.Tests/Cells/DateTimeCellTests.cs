@@ -10,6 +10,6 @@ public sealed record DateTimeCellTests
     {
         ICell cell = new DateTimeCell();
 
-        Assert.Equal("1/15/2024 9:30:0.0.0", cell.Value.TextValue);
+        Assert.Equal("2024-01-15T09:30:00", cell.Value.TextValue);
     }
 }

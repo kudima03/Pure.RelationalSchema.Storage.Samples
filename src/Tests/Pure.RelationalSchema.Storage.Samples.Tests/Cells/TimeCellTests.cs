@@ -10,6 +10,6 @@ public sealed record TimeCellTests
     {
         ICell cell = new TimeCell();
 
-        Assert.Equal("9:30:0.0.0", cell.Value.TextValue);
+        Assert.Equal("09:30:00", cell.Value.TextValue);
     }
 }

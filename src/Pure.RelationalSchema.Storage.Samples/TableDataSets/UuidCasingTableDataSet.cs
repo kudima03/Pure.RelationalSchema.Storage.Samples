@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Linq.Expressions;
+using Pure.RelationalSchema.Abstractions.Table;
+using Pure.RelationalSchema.Samples.Tables;
+using Pure.RelationalSchema.Storage.Abstractions;
+using Pure.RelationalSchema.Storage.Samples.Rows;
+
+namespace Pure.RelationalSchema.Storage.Samples.TableDataSets;
+
+// The same logical uuid stored twice, once as lowercase hex and once as
+// uppercase hex, distinguished by name. Uuid text is case-insensitive on
+// parse, so both rows must read back as one value.
+public sealed record UuidCasingTableDataSet : IStoredTableDataSet
+{
+    private readonly IQueryable<IRow> _rows;
+
+    public UuidCasingTableDataSet()
+    {
+        _rows = new IRow[]
+        {
+            new LowercaseUuidRow(),
+            new UppercaseUuidRow(),
+        }.AsQueryable();
+    }
+
+    public ITable TableSchema => new TableWithoutIndexes();
+
+    public Type ElementType => _rows.ElementType;
+
+    public Expression Expression => _rows.Expression;
+
+    public IQueryProvider Provider => _rows.Provider;
+
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
+        CancellationToken cancellationToken = default
+    )
+    {
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
+    }
+
+    public IEnumerator<IRow> GetEnumerator()
+    {
+        return _rows.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}

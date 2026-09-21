@@ -23,11 +23,11 @@ public sealed record UsersTableDataSetTests
     }
 
     [Fact]
-    public void RowsCountIs2()
+    public void RowsCountIs6()
     {
         IStoredTableDataSet dataSet = new UsersTableDataSet();
 
-        Assert.Equal(2, dataSet.Count());
+        Assert.Equal(6, dataSet.Count());
     }
 
     [Fact]
@@ -42,13 +42,57 @@ public sealed record UsersTableDataSetTests
     }
 
     [Fact]
-    public void ContainsEmptyCellsUserRow()
+    public void ContainsSecondUserRow()
     {
         IStoredTableDataSet dataSet = new UsersTableDataSet();
 
         Assert.Contains(
             (IEnumerable<IRow>)dataSet,
-            row => new RowHash(row).SequenceEqual(new RowHash(new EmptyCellsUserRow()))
+            row => new RowHash(row).SequenceEqual(new RowHash(new SecondUserRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsThirdUserRow()
+    {
+        IStoredTableDataSet dataSet = new UsersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new ThirdUserRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFourthUserRow()
+    {
+        IStoredTableDataSet dataSet = new UsersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FourthUserRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFifthUserRow()
+    {
+        IStoredTableDataSet dataSet = new UsersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FifthUserRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsSixthUserRow()
+    {
+        IStoredTableDataSet dataSet = new UsersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new SixthUserRow()))
         );
     }
 
@@ -74,11 +118,11 @@ public sealed record UsersTableDataSetTests
         IStoredTableDataSet dataSet = new UsersTableDataSet();
 
         Assert.NotNull(dataSet.Provider);
-        Assert.Equal(2, dataSet.ToArray().Length);
+        Assert.Equal(6, dataSet.ToArray().Length);
     }
 
     [Fact]
-    public void NonGenericEnumeratorEnumeratesTwoRows()
+    public void NonGenericEnumeratorEnumeratesSixRows()
     {
         IStoredTableDataSet dataSet = new UsersTableDataSet();
 
@@ -90,11 +134,11 @@ public sealed record UsersTableDataSetTests
             count++;
         }
 
-        Assert.Equal(2, count);
+        Assert.Equal(6, count);
     }
 
     [Fact]
-    public async Task AsyncEnumerationYieldsTwoRows()
+    public async Task AsyncEnumerationYieldsSixRows()
     {
         IStoredTableDataSet dataSet = new UsersTableDataSet();
 
@@ -105,6 +149,6 @@ public sealed record UsersTableDataSetTests
             rows.Add(row);
         }
 
-        Assert.Equal(2, rows.Count);
+        Assert.Equal(6, rows.Count);
     }
 }

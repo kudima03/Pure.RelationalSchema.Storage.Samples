@@ -10,13 +10,10 @@ public sealed record EmptyTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private EmptyTableDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public EmptyTableDataSet()
-        : this(Array.Empty<IRow>().AsQueryable()) { }
+    {
+        _rows = Array.Empty<IRow>().AsQueryable();
+    }
 
     public ITable TableSchema => new EmptyTable();
 

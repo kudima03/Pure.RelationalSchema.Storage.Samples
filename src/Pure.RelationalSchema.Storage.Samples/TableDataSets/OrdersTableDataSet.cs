@@ -7,17 +7,26 @@ using Pure.RelationalSchema.Storage.Samples.Rows;
 
 namespace Pure.RelationalSchema.Storage.Samples.TableDataSets;
 
+// Six orders over four of the six users (user 1 twice, user 2 once, user 3
+// twice, user 4 once); users 5 and 6 have none, so an outer join has unmatched
+// rows on the users side. order_total repeats (100.5 twice) for DISTINCT, and
+// the statuses are lowercase ASCII so ordinal ordering is collation-independent.
 public sealed record OrdersTableDataSet : IStoredTableDataSet
 {
     private readonly IQueryable<IRow> _rows;
 
-    private OrdersTableDataSet(IQueryable<IRow> rows)
-    {
-        _rows = rows;
-    }
-
     public OrdersTableDataSet()
-        : this(new IRow[] { new OrderRow() }.AsQueryable()) { }
+    {
+        _rows = new IRow[]
+        {
+            new OrderRow(),
+            new SecondOrderRow(),
+            new ThirdOrderRow(),
+            new FourthOrderRow(),
+            new FifthOrderRow(),
+            new SixthOrderRow(),
+        }.AsQueryable();
+    }
 
     public ITable TableSchema => new OrdersTable();
 
