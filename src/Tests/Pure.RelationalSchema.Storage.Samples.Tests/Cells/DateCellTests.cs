@@ -10,6 +10,6 @@ public sealed record DateCellTests
     {
         ICell cell = new DateCell();
 
-        Assert.Equal("1/15/1990", cell.Value.TextValue);
+        Assert.Equal("1990-01-15", cell.Value.TextValue);
     }
 }

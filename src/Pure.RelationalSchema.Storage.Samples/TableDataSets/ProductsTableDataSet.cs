@@ -16,8 +16,17 @@ public sealed record ProductsTableDataSet : IStoredTableDataSet
         _rows = rows;
     }
 
+    private static IQueryable<IRow> Rows =>
+        new IRow[]
+        {
+            new ProductRow(),
+            new SecondProductRow(),
+            new ThirdProductRow(),
+            new FourthProductRow(),
+        }.AsQueryable();
+
     public ProductsTableDataSet()
-        : this(new IRow[] { new ProductRow() }.AsQueryable()) { }
+        : this(Rows) { }
 
     public ITable TableSchema => new ProductsTable();
 

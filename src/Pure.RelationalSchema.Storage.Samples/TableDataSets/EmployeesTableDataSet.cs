@@ -16,8 +16,17 @@ public sealed record EmployeesTableDataSet : IStoredTableDataSet
         _rows = rows;
     }
 
+    private static IQueryable<IRow> Rows =>
+        new IRow[]
+        {
+            new EmployeeRow(),
+            new SecondEmployeeRow(),
+            new ThirdEmployeeRow(),
+            new FourthEmployeeRow(),
+        }.AsQueryable();
+
     public EmployeesTableDataSet()
-        : this(new IRow[] { new EmployeeRow() }.AsQueryable()) { }
+        : this(Rows) { }
 
     public ITable TableSchema => new EmployeesTable();
 

@@ -66,6 +66,14 @@ public sealed record FullSchemaDataSet : IStoredSchemaDataSet
                     new EmployeesTable(),
                     new EmployeesTableDataSet()
                 ),
+                new KeyValuePair<ITable, IStoredTableDataSet>(
+                    new LoginsTable(),
+                    new LoginsTableDataSet()
+                ),
+                new KeyValuePair<ITable, IStoredTableDataSet>(
+                    new StatusesTable(),
+                    new StatusesTableDataSet()
+                ),
             ],
             pair => pair.Key,
             pair => pair.Value,

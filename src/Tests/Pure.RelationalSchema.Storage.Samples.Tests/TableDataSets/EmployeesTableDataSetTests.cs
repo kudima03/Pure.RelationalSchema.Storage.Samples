@@ -23,11 +23,11 @@ public sealed record EmployeesTableDataSetTests
     }
 
     [Fact]
-    public void RowsCountIs1()
+    public void RowsCountIs4()
     {
         IStoredTableDataSet dataSet = new EmployeesTableDataSet();
 
-        _ = Assert.Single((IEnumerable<IRow>)dataSet);
+        Assert.Equal(4, dataSet.Count());
     }
 
     [Fact]
@@ -38,6 +38,39 @@ public sealed record EmployeesTableDataSetTests
         Assert.Contains(
             (IEnumerable<IRow>)dataSet,
             row => new RowHash(row).SequenceEqual(new RowHash(new EmployeeRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsSecondEmployeeRow()
+    {
+        IStoredTableDataSet dataSet = new EmployeesTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new SecondEmployeeRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsThirdEmployeeRow()
+    {
+        IStoredTableDataSet dataSet = new EmployeesTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new ThirdEmployeeRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFourthEmployeeRow()
+    {
+        IStoredTableDataSet dataSet = new EmployeesTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FourthEmployeeRow()))
         );
     }
 
@@ -63,22 +96,27 @@ public sealed record EmployeesTableDataSetTests
         IStoredTableDataSet dataSet = new EmployeesTableDataSet();
 
         Assert.NotNull(dataSet.Provider);
-        _ = Assert.Single(dataSet.ToArray());
+        Assert.Equal(4, dataSet.ToArray().Length);
     }
 
     [Fact]
-    public void NonGenericEnumeratorEnumeratesOneRow()
+    public void NonGenericEnumeratorEnumeratesFourRows()
     {
         IStoredTableDataSet dataSet = new EmployeesTableDataSet();
 
         IEnumerator enumerator = ((IEnumerable)dataSet).GetEnumerator();
 
-        Assert.True(enumerator.MoveNext());
-        Assert.False(enumerator.MoveNext());
+        int count = 0;
+        while (enumerator.MoveNext())
+        {
+            count++;
+        }
+
+        Assert.Equal(4, count);
     }
 
     [Fact]
-    public async Task AsyncEnumerationYieldsOneRow()
+    public async Task AsyncEnumerationYieldsFourRows()
     {
         IStoredTableDataSet dataSet = new EmployeesTableDataSet();
 
@@ -89,6 +127,6 @@ public sealed record EmployeesTableDataSetTests
             rows.Add(row);
         }
 
-        _ = Assert.Single(rows);
+        Assert.Equal(4, rows.Count);
     }
 }

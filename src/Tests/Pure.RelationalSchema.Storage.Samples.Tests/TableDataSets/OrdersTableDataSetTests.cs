@@ -23,11 +23,11 @@ public sealed record OrdersTableDataSetTests
     }
 
     [Fact]
-    public void RowsCountIs1()
+    public void RowsCountIs6()
     {
         IStoredTableDataSet dataSet = new OrdersTableDataSet();
 
-        _ = Assert.Single((IEnumerable<IRow>)dataSet);
+        Assert.Equal(6, dataSet.Count());
     }
 
     [Fact]
@@ -38,6 +38,61 @@ public sealed record OrdersTableDataSetTests
         Assert.Contains(
             (IEnumerable<IRow>)dataSet,
             row => new RowHash(row).SequenceEqual(new RowHash(new OrderRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsSecondOrderRow()
+    {
+        IStoredTableDataSet dataSet = new OrdersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new SecondOrderRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsThirdOrderRow()
+    {
+        IStoredTableDataSet dataSet = new OrdersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new ThirdOrderRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFourthOrderRow()
+    {
+        IStoredTableDataSet dataSet = new OrdersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FourthOrderRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsFifthOrderRow()
+    {
+        IStoredTableDataSet dataSet = new OrdersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new FifthOrderRow()))
+        );
+    }
+
+    [Fact]
+    public void ContainsSixthOrderRow()
+    {
+        IStoredTableDataSet dataSet = new OrdersTableDataSet();
+
+        Assert.Contains(
+            (IEnumerable<IRow>)dataSet,
+            row => new RowHash(row).SequenceEqual(new RowHash(new SixthOrderRow()))
         );
     }
 
@@ -63,22 +118,27 @@ public sealed record OrdersTableDataSetTests
         IStoredTableDataSet dataSet = new OrdersTableDataSet();
 
         Assert.NotNull(dataSet.Provider);
-        _ = Assert.Single(dataSet.ToArray());
+        Assert.Equal(6, dataSet.ToArray().Length);
     }
 
     [Fact]
-    public void NonGenericEnumeratorEnumeratesOneRow()
+    public void NonGenericEnumeratorEnumeratesSixRows()
     {
         IStoredTableDataSet dataSet = new OrdersTableDataSet();
 
         IEnumerator enumerator = ((IEnumerable)dataSet).GetEnumerator();
 
-        Assert.True(enumerator.MoveNext());
-        Assert.False(enumerator.MoveNext());
+        int count = 0;
+        while (enumerator.MoveNext())
+        {
+            count++;
+        }
+
+        Assert.Equal(6, count);
     }
 
     [Fact]
-    public async Task AsyncEnumerationYieldsOneRow()
+    public async Task AsyncEnumerationYieldsSixRows()
     {
         IStoredTableDataSet dataSet = new OrdersTableDataSet();
 
@@ -89,6 +149,6 @@ public sealed record OrdersTableDataSetTests
             rows.Add(row);
         }
 
-        _ = Assert.Single(rows);
+        Assert.Equal(6, rows.Count);
     }
 }

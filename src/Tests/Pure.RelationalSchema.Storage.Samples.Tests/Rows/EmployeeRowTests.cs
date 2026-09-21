@@ -1,7 +1,5 @@
 using Pure.RelationalSchema.Samples.Columns;
 using Pure.RelationalSchema.Storage.Abstractions;
-using Pure.RelationalSchema.Storage.HashCodes;
-using Pure.RelationalSchema.Storage.Samples.Cells;
 using Pure.RelationalSchema.Storage.Samples.Rows;
 
 namespace Pure.RelationalSchema.Storage.Samples.Tests.Rows;
@@ -9,90 +7,102 @@ namespace Pure.RelationalSchema.Storage.Samples.Tests.Rows;
 public sealed record EmployeeRowTests
 {
     [Fact]
-    public void CellsCountIs4()
+    public void CellsCountIs5()
     {
         IRow row = new EmployeeRow();
 
-        Assert.Equal(4, row.Cells.Count);
+        Assert.Equal(5, row.Cells.Count);
     }
 
     [Fact]
-    public void CellsContainsIdColumn()
+    public void CellsContainsEmployeeIdColumn()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(row.Cells.ContainsKey(new IdColumn()));
+        Assert.True(row.Cells.ContainsKey(new EmployeeIdColumn()));
     }
 
     [Fact]
-    public void IdCellIsUuidCell()
+    public void EmployeeIdCellHoldsExpectedText()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new IdColumn()]).SequenceEqual(
-                new CellHash(new UuidCell())
-            )
+        Assert.Equal(
+            "000002bd-0000-0000-0000-000000000000",
+            row.Cells[new EmployeeIdColumn()].Value.TextValue
         );
     }
 
     [Fact]
-    public void CellsContainsNameColumn()
+    public void CellsContainsEmployeeNameColumn()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(row.Cells.ContainsKey(new NameColumn()));
+        Assert.True(row.Cells.ContainsKey(new EmployeeNameColumn()));
     }
 
     [Fact]
-    public void NameCellIsTextCell()
+    public void EmployeeNameCellHoldsExpectedText()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new NameColumn()]).SequenceEqual(
-                new CellHash(new TextCell())
-            )
+        Assert.Equal("Grace", row.Cells[new EmployeeNameColumn()].Value.TextValue);
+    }
+
+    [Fact]
+    public void CellsContainsEmployeeManagerIdColumn()
+    {
+        IRow row = new EmployeeRow();
+
+        Assert.True(row.Cells.ContainsKey(new EmployeeManagerIdColumn()));
+    }
+
+    [Fact]
+    public void EmployeeManagerIdCellHoldsExpectedText()
+    {
+        IRow row = new EmployeeRow();
+
+        Assert.Equal(
+            string.Empty,
+            row.Cells[new EmployeeManagerIdColumn()].Value.TextValue
         );
     }
 
     [Fact]
-    public void CellsContainsManagerIdColumn()
+    public void CellsContainsEmployeeShiftStartColumn()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(row.Cells.ContainsKey(new ManagerIdColumn()));
+        Assert.True(row.Cells.ContainsKey(new EmployeeShiftStartColumn()));
     }
 
     [Fact]
-    public void ManagerIdCellIsUuidCell()
+    public void EmployeeShiftStartCellHoldsExpectedText()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new ManagerIdColumn()]).SequenceEqual(
-                new CellHash(new UuidCell())
-            )
+        Assert.Equal(
+            "09:00:00",
+            row.Cells[new EmployeeShiftStartColumn()].Value.TextValue
         );
     }
 
     [Fact]
-    public void CellsContainsStartTimeColumn()
+    public void CellsContainsEmployeeUserIdColumn()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(row.Cells.ContainsKey(new StartTimeColumn()));
+        Assert.True(row.Cells.ContainsKey(new EmployeeUserIdColumn()));
     }
 
     [Fact]
-    public void StartTimeCellIsTimeCell()
+    public void EmployeeUserIdCellHoldsExpectedText()
     {
         IRow row = new EmployeeRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new StartTimeColumn()]).SequenceEqual(
-                new CellHash(new TimeCell())
-            )
+        Assert.Equal(
+            "00000001-0000-0000-0000-000000000000",
+            row.Cells[new EmployeeUserIdColumn()].Value.TextValue
         );
     }
 }

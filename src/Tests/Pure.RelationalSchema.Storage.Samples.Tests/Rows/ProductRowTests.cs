@@ -1,7 +1,5 @@
 using Pure.RelationalSchema.Samples.Columns;
 using Pure.RelationalSchema.Storage.Abstractions;
-using Pure.RelationalSchema.Storage.HashCodes;
-using Pure.RelationalSchema.Storage.Samples.Cells;
 using Pure.RelationalSchema.Storage.Samples.Rows;
 
 namespace Pure.RelationalSchema.Storage.Samples.Tests.Rows;
@@ -9,90 +7,96 @@ namespace Pure.RelationalSchema.Storage.Samples.Tests.Rows;
 public sealed record ProductRowTests
 {
     [Fact]
-    public void CellsCountIs4()
+    public void CellsCountIs5()
     {
         IRow row = new ProductRow();
 
-        Assert.Equal(4, row.Cells.Count);
+        Assert.Equal(5, row.Cells.Count);
     }
 
     [Fact]
-    public void CellsContainsIdColumn()
+    public void CellsContainsProductIdColumn()
     {
         IRow row = new ProductRow();
 
-        Assert.True(row.Cells.ContainsKey(new IdColumn()));
+        Assert.True(row.Cells.ContainsKey(new ProductIdColumn()));
     }
 
     [Fact]
-    public void IdCellIsUuidCell()
+    public void ProductIdCellHoldsExpectedText()
     {
         IRow row = new ProductRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new IdColumn()]).SequenceEqual(
-                new CellHash(new UuidCell())
-            )
+        Assert.Equal(
+            "000000c9-0000-0000-0000-000000000000",
+            row.Cells[new ProductIdColumn()].Value.TextValue
         );
     }
 
     [Fact]
-    public void CellsContainsNameColumn()
+    public void CellsContainsProductNameColumn()
     {
         IRow row = new ProductRow();
 
-        Assert.True(row.Cells.ContainsKey(new NameColumn()));
+        Assert.True(row.Cells.ContainsKey(new ProductNameColumn()));
     }
 
     [Fact]
-    public void NameCellIsTextCell()
+    public void ProductNameCellHoldsExpectedText()
     {
         IRow row = new ProductRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new NameColumn()]).SequenceEqual(
-                new CellHash(new TextCell())
-            )
+        Assert.Equal("Widget", row.Cells[new ProductNameColumn()].Value.TextValue);
+    }
+
+    [Fact]
+    public void CellsContainsProductDescriptionColumn()
+    {
+        IRow row = new ProductRow();
+
+        Assert.True(row.Cells.ContainsKey(new ProductDescriptionColumn()));
+    }
+
+    [Fact]
+    public void ProductDescriptionCellHoldsExpectedText()
+    {
+        IRow row = new ProductRow();
+
+        Assert.Equal(
+            "Basic widget",
+            row.Cells[new ProductDescriptionColumn()].Value.TextValue
         );
     }
 
     [Fact]
-    public void CellsContainsDescriptionColumn()
+    public void CellsContainsProductPriceColumn()
     {
         IRow row = new ProductRow();
 
-        Assert.True(row.Cells.ContainsKey(new DescriptionColumn()));
+        Assert.True(row.Cells.ContainsKey(new ProductPriceColumn()));
     }
 
     [Fact]
-    public void DescriptionCellIsTextCell()
+    public void ProductPriceCellHoldsExpectedText()
     {
         IRow row = new ProductRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new DescriptionColumn()]).SequenceEqual(
-                new CellHash(new TextCell())
-            )
-        );
+        Assert.Equal("9.99", row.Cells[new ProductPriceColumn()].Value.TextValue);
     }
 
     [Fact]
-    public void CellsContainsPriceColumn()
+    public void CellsContainsProductInStockColumn()
     {
         IRow row = new ProductRow();
 
-        Assert.True(row.Cells.ContainsKey(new PriceColumn()));
+        Assert.True(row.Cells.ContainsKey(new ProductInStockColumn()));
     }
 
     [Fact]
-    public void PriceCellIsDoubleCell()
+    public void ProductInStockCellHoldsExpectedText()
     {
         IRow row = new ProductRow();
 
-        Assert.True(
-            new CellHash(row.Cells[new PriceColumn()]).SequenceEqual(
-                new CellHash(new DoubleCell())
-            )
-        );
+        Assert.Equal("True", row.Cells[new ProductInStockColumn()].Value.TextValue);
     }
 }

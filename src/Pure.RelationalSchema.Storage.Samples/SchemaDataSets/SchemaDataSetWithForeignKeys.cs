@@ -11,6 +11,10 @@ using Pure.RelationalSchema.Storage.Samples.TableDataSets;
 
 namespace Pure.RelationalSchema.Storage.Samples.SchemaDataSets;
 
+// The query-grade domain: every column readable, every column name unique
+// across the five relations, joined by five of the schema's six foreign keys.
+// The sixth, orders.order_status -> statuses.status_code, leaves the schema -
+// its referenced side lives in RefsSchemaDataSet.
 public sealed record SchemaDataSetWithForeignKeys : IStoredSchemaDataSet
 {
     public ISchema Schema => new RelationalSchemaWithForeignKeys();
@@ -29,6 +33,18 @@ public sealed record SchemaDataSetWithForeignKeys : IStoredSchemaDataSet
                 new KeyValuePair<ITable, IStoredTableDataSet>(
                     new OrdersTable(),
                     new OrdersTableDataSet()
+                ),
+                new KeyValuePair<ITable, IStoredTableDataSet>(
+                    new ProductsTable(),
+                    new ProductsTableDataSet()
+                ),
+                new KeyValuePair<ITable, IStoredTableDataSet>(
+                    new OrderItemsTable(),
+                    new OrderItemsTableDataSet()
+                ),
+                new KeyValuePair<ITable, IStoredTableDataSet>(
+                    new EmployeesTable(),
+                    new EmployeesTableDataSet()
                 ),
             ],
             pair => pair.Key,
