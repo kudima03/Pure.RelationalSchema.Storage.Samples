@@ -27,15 +27,11 @@ public sealed record SingleRowTableDataSet : IStoredTableDataSet
 
     public IQueryProvider Provider => _rows.Provider;
 
-    public async IAsyncEnumerator<IRow> GetAsyncEnumerator(
+    public IAsyncEnumerator<IRow> GetAsyncEnumerator(
         CancellationToken cancellationToken = default
     )
     {
-        foreach (IRow row in _rows)
-        {
-            yield return row;
-            await Task.CompletedTask;
-        }
+        return new SynchronousAsyncRowEnumerator(_rows.GetEnumerator());
     }
 
     public IEnumerator<IRow> GetEnumerator()
