@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-preview.1.2.0] - 2026-10-22
+
+### Changed
+
+- Bumped `Pure.RelationalSchema.Samples` to 0.1.0-preview.1.1.0.
+
+No public API changed; package validation against 0.1.0-preview.1.1.0 stays
+green.
+
 ## [0.1.0-preview.1.1.0] - 2026-10-22
 
 ### Changed
@@ -86,6 +95,7 @@ pinning hashes must retake them.
 - Schema data set samples graded from `EmptySchemaDataSet` to
   `FullSchemaDataSet`.
 
+[0.1.0-preview.1.2.0]: https://github.com/kudima03/Pure.RelationalSchema.Storage.Samples/releases/tag/0.1.0-preview.1.2.0
 [0.1.0-preview.1.1.0]: https://github.com/kudima03/Pure.RelationalSchema.Storage.Samples/releases/tag/0.1.0-preview.1.1.0
 [0.1.0-preview.1.0.0]: https://github.com/kudima03/Pure.RelationalSchema.Storage.Samples/releases/tag/0.1.0-preview.1.0.0
 [0.1.0-preview.0.1.0]: https://github.com/kudima03/Pure.RelationalSchema.Storage.Samples/releases/tag/0.1.0-preview.0.1.0
