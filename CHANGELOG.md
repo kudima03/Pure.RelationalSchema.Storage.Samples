@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-preview.1.3.0] - 2026-11-11
+
+### Added
+
+- Support for .NET 11 (net11.0 target framework).
+
+### Changed
+
+- Bumped `Pure.Collections.Generic` to 0.1.0-preview.3.1.0, `Pure.Primitives` to 3.8.0, `Pure.RelationalSchema.HashCodes` to 3.4.0 and `Pure.RelationalSchema.Samples` to 0.1.0-preview.1.2.0.
+
+No public API changed; package validation against 0.1.0-preview.1.2.0 stays
+green.
+
 ## [0.1.0-preview.1.2.0] - 2026-10-22
 
 ### Changed
