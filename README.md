@@ -363,6 +363,7 @@ No storage *implementation* package (`Pure.RelationalSchema.Storage`) is referen
 - .NET 8
 - .NET 9
 - .NET 10
+- .NET 11
 
 `Pure.Collections.Generic` targets net8.0+ only, and it is required for the hash-keyed dictionaries backing `IRow.Cells` and `IStoredSchemaDataSet` — every Pure type throws `NotSupportedException` from `GetHashCode()`, so plain dictionary keys are not an option. This package therefore does not offer net7.0, unlike `Pure.RelationalSchema.Samples`.
 
